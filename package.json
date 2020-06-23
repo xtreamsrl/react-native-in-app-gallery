@@ -1,0 +1,35 @@
+{
+  "name": "react-native-in-app-gallery",
+  "version": "0.0.1",
+  "description": "A RN in-app gallery component",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "react-native"
+  ],
+  "author": "Alberto Di Gioacchino",
+  "license": "MIT",
+  "dependencies": {
+    "@react-native-community/cameraroll": "^2.0.0",
+    "react-native-permissions": "^2.1.5",
+    "react-native-camera": "^3.30.0",
+    "react-native-image-picker": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/react-native": "^0.62.0",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "typescript": "^3.9.5"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  }
+}

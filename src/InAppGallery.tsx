@@ -266,7 +266,7 @@ const InAppGallery = forwardRef<any, Props>(
               onImageSelected(item, true);
             }
           } else {
-            onImagePicked(item);
+            onImagePicked(item.node.image);
           }
         };
 
@@ -281,7 +281,7 @@ const InAppGallery = forwardRef<any, Props>(
         if (withCamera) {
           if (index === 0) {
             if (isCameraGranted) {
-              return <CameraButton onImagePicked={onImagePicked} imagePickerOptions={imagePickerOptions} />;
+              return <CameraButton height={imageHeight} onImagePicked={onImagePicked} imagePickerOptions={imagePickerOptions} />;
             } else {
               return (
                 <TouchableOpacity

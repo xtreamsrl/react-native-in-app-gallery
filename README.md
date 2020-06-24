@@ -41,21 +41,24 @@ import InAppGallery from 'react-native-in-app-gallery';
     }}
 />
 ```
-  
+
 ### Props
 
 | Property                                |                   Type                   | Description                           |
 | --------------------------------------- | :--------------------------------------: | :--------------------------------------- |
-| onImagePicked                           |           (image: ImageFile) => void     | Callback which triggers when an image is picked (press on image, take a photo from the camera or from gallery)             |
+| onImagePicked                           |      (image: ImageFile) => void          | Callback which triggers when an image is picked (press on image, take a photo from the camera or from gallery) |
 | withCamera                              |           bool (default true)            | (Optional) If true, shows camera preview and allow to take picture from the camera |
 | withFullGallery                         |           bool (default true)            | (Optional) If true, a FAB button allows you to open the gallery |
 | onPermissionGranted                     |    (permission: Permission) => void      | (Optional) Callback on permission granted |
 | onPermissionDenied                      |    (permission: Permission) => void      | (Optional) Callback on permission denied |
 | onPermissionBlocked                     |    (permission: Permission) => void      | (Optional) Callback on permission blocked |
-| onImageSelected                         |    (image: ImageFile, selected: boolean) | (Optional) Callback on image selection. It enables selection with long press. It's triggered whenever an image is selected or deselected |
+| imagePickerOptions                      | ImagePickerOptions (default  ```{storageOptions: {skipBackup: true, path: 'images'}}```) | (Optional) Options for ImagePicker |
+| enableSelection                         |         bool (default false)             | (Optional) It enables selection (with long press) |
+| onImageSelected                         |    (image: ImageFile, selected: boolean) | (Optional) Callback on image selection. It's triggered whenever an image is selected or deselected |
 | onSelectionEnd                          |    (image: ImageFile[]) => void          | (Optional) Callback on images selection end |
 | cancelSelectionText                     |       string (default `Cancel`)          | (Optional) Text to cancel selection |
 | doneSelectionText                       |        string (default `DONE`)           | (Optional) Text to end selection |
+| selectionColor                          |        string (default `#0284ff`)        | (Optional) It's the tint color for selection icon |
 
 ### Methods
 

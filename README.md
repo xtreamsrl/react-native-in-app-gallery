@@ -26,9 +26,9 @@ This package depends on few common react-native packages:
 * [react-native-camera](https://github.com/react-native-community/react-native-camera)
 * [react-native-image-picker](https://github.com/react-native-community/react-native-image-picker)
 
-To make it works, we need to setup these packages. Please refer to their installation guide which is maintained up-do-date.
+To make it works, we need to setup these packages. Please refer to their installation guides which are up-to-date.
 
-##Usage
+## Usage
 
 The usage should be straightforward: simply import the component and consume it.
 
@@ -42,7 +42,7 @@ import InAppGallery from 'react-native-in-app-gallery';
 />
 ```
   
-###Props
+### Props
 
 | Property                                |                   Type                   | Description                           |
 | --------------------------------------- | :--------------------------------------: | :--------------------------------------- |
@@ -57,7 +57,7 @@ import InAppGallery from 'react-native-in-app-gallery';
 | cancelSelectionText                     |       string (default `Cancel`)          | (Optional) Text to cancel selection |
 | doneSelectionText                       |        string (default `DONE`)           | (Optional) Text to end selection |
 
-###Methods
+### Methods
 
 | Method                                  |                Description               | 
 | --------------------------------------- | :--------------------------------------: | 

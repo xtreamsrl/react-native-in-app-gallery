@@ -8,11 +8,13 @@ import {ImageFile} from './typings';
 import {convertToImageFile} from './utils';
 
 type Props = {
+  height: number;
   onImagePicked: (image: ImageFile) => void;
   imagePickerOptions: ImagePickerOptions;
 };
 
 export const CameraButton: React.FC<Props> = ({
+  height,
   onImagePicked,
   imagePickerOptions,
 }) => {
@@ -32,7 +34,7 @@ export const CameraButton: React.FC<Props> = ({
       onPress={handleOnPress}
       style={{
         width: '33.33%',
-        height: 120,
+        height: height,
         position: 'relative',
         borderBottomWidth: 1,
         borderRightWidth: 1,

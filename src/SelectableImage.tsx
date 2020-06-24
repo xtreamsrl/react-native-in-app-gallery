@@ -5,6 +5,7 @@ import {Image, TouchableOpacity, View} from 'react-native';
 import check from '../assets/check.png';
 
 type Props = {
+  imageHeight: number;
   isSelected: boolean;
   item: PhotoIdentifier;
   onImagePress: () => void;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 const SelectableImage: React.FC<Props> = ({
+  imageHeight,
   isSelected,
   item,
   onImagePress,
@@ -27,7 +29,7 @@ const SelectableImage: React.FC<Props> = ({
       onLongPress={enableSelection ? onImageLongPress : undefined}
       style={{
         width: '33.33%',
-        height: 120,
+        height: imageHeight,
         borderBottomWidth: 1,
         borderRightWidth: 1,
         borderColor: '#fff'

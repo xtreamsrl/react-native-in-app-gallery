@@ -19,6 +19,9 @@ import {ImagePickerOptions} from 'react-native-image-picker';
 
 export interface Props {
   onImagePicked: (image: ImageFile) => void;
+  pageSize?: number;
+  initialNumToRender?: number;
+  imageHeight?: number;
   withCamera?: boolean;
   withFullGallery?: boolean;
   onPermissionGranted?: (permission: Permission) => void;
@@ -83,6 +86,9 @@ const InAppGallery = forwardRef<any, Props>(
       onPermissionBlocked,
       enableSelection,
       imagePickerOptions = defaultImagePickerOptions,
+      imageHeight = 120,
+      pageSize = 100,
+      initialNumToRender = 9,
       withCamera = true,
       withFullGallery = true,
       cancelSelectionText = 'Cancel',
@@ -208,13 +214,13 @@ const InAppGallery = forwardRef<any, Props>(
         async () => {
           onPermissionGranted && onPermissionGranted(permission);
           setIsPhotoLibraryGranted(true);
-          const _photos = await fetchInitialPhotos();
+          const _photos = await fetchInitialPhotos(undefined, undefined, pageSize);
           setPhotos(_photos);
         },
         askPhotoLibraryPermissions,
         onPermissionBlocked,
       );
-    }, [onPermissionGranted, onPermissionBlocked, askPhotoLibraryPermissions]);
+    }, [onPermissionGranted, onPermissionBlocked, askPhotoLibraryPermissions, pageSize]);
 
     useEffect(() => {
       async function doAsyncStuff() {
@@ -228,7 +234,7 @@ const InAppGallery = forwardRef<any, Props>(
     }, [checkPhotoLibraryPermissions, checkCameraPermissions, withCamera]);
 
     const loadMorePhotos = useCallback(async () => {
-      const phts = await fetchMorePhotos();
+      const phts = await fetchMorePhotos(pageSize);
       setPhotos((ps) => {
         if (ps) {
           if (phts) {
@@ -244,7 +250,7 @@ const InAppGallery = forwardRef<any, Props>(
           }
         }
       });
-    }, []);
+    }, [pageSize]);
 
     const renderItem = useCallback(
       ({item, index}) => {
@@ -287,6 +293,7 @@ const InAppGallery = forwardRef<any, Props>(
           } else {
             return (
               <SelectableImage
+                imageHeight={imageHeight}
                 enableSelection={enableSelection}
                 onImagePress={handleOnImagePress}
                 onImageLongPress={handleOnImageLongPress}
@@ -299,6 +306,7 @@ const InAppGallery = forwardRef<any, Props>(
         } else {
           return (
             <SelectableImage
+              imageHeight={imageHeight}
               enableSelection={enableSelection}
               onImagePress={handleOnImagePress}
               onImageLongPress={handleOnImageLongPress}
@@ -310,6 +318,7 @@ const InAppGallery = forwardRef<any, Props>(
         }
       },
       [
+        imageHeight,
         isCameraGranted,
         withCamera,
         isSelectionEnabled,
@@ -365,6 +374,10 @@ const InAppGallery = forwardRef<any, Props>(
       handleDoneSelection,
     ]);
 
+    const handleGetItemLayout = useCallback((_, index) => (
+      {length: imageHeight, offset: imageHeight * index, index}
+    ), [imageHeight]);
+
     if (!isPhotoLibraryGranted) return null;
 
     return (
@@ -375,9 +388,12 @@ const InAppGallery = forwardRef<any, Props>(
             renderItem={renderItem}
             ListHeaderComponent={renderHeader}
             numColumns={3}
+            removeClippedSubviews={Platform.OS === 'android'}
             keyExtractor={(item) => item.node.image.uri}
+            onEndReachedThreshold={0.7}
             onEndReached={loadMorePhotos}
-            initialNumToRender={20}
+            initialNumToRender={initialNumToRender}
+            getItemLayout={handleGetItemLayout}
           />
         {withFullGallery && (
           <View

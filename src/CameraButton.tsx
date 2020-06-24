@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import {Image, TouchableOpacity, View} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 //@ts-ignore
-import camera from './assets/camera.png';
+import camera from '../assets/camera.png';
 import ImagePicker, {ImagePickerResponse, ImagePickerOptions} from 'react-native-image-picker';
 import {ImageFile} from './typings';
 import {convertToImageFile} from './utils';

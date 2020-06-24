@@ -3,7 +3,7 @@ import {PhotoIdentifier} from '@react-native-community/cameraroll';
 import {Image, TouchableOpacity, View} from 'react-native';
 import {ImageFile} from './typings';
 //@ts-ignore
-import check from './assets/check.png';
+import check from '../assets/check.png';
 
 type Props = {
   isSelected: boolean;

@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import ImagePicker, {ImagePickerOptions, ImagePickerResponse} from 'react-native-image-picker';
 import {Image, TouchableOpacity} from 'react-native';
 //@ts-ignore
-import grid from './assets/grid.png';
+import grid from '../assets/grid.png';
 import {convertToImageFile} from './utils';
 import {ImageFile} from './typings';
 

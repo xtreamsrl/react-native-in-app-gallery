@@ -47,6 +47,9 @@ import InAppGallery from 'react-native-in-app-gallery';
 | Property                                |                   Type                   | Description                           |
 | --------------------------------------- | :--------------------------------------: | :--------------------------------------- |
 | onImagePicked                           |      (image: ImageFile) => void          | Callback which triggers when an image is picked (press on image, take a photo from the camera or from gallery) |
+| pageSize                                |          number (default 100)            | (Optional) The page size dimension to paginate images fetching |
+| initialNumToRender                      |          number (default 9)              | (Optional) The initial number of items to render for the FlatList |
+| imageHeight                             |          number (default 120)            | (Optional) The height of the image item |
 | withCamera                              |           bool (default true)            | (Optional) If true, shows camera preview and allow to take picture from the camera |
 | withFullGallery                         |           bool (default true)            | (Optional) If true, a FAB button allows you to open the gallery |
 | onPermissionGranted                     |    (permission: Permission) => void      | (Optional) Callback on permission granted |

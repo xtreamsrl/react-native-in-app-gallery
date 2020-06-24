@@ -8,19 +8,12 @@ import {ImageFile} from './typings';
 
 type Props = {
   onImagePicked: (image: ImageFile) => void;
-  imagePickerOptions?: ImagePickerOptions;
-};
-
-const defaultImagePickerOptions = {
-  storageOptions: {
-    skipBackup: true,
-    path: 'images',
-  },
+  imagePickerOptions: ImagePickerOptions;
 };
 
 const FloatFullGalleryButton: React.FC<Props> = ({
   onImagePicked,
-  imagePickerOptions = defaultImagePickerOptions,
+  imagePickerOptions,
 }) => {
   const callback = useCallback(
     (res: ImagePickerResponse) => {

@@ -15,18 +15,22 @@ import {CameraButton} from './CameraButton';
 import FloatFullGalleryButton from './GalleryButton';
 import {ImageFile} from './typings';
 import SelectableImage from './SelectableImage';
+import {ImagePickerOptions} from 'react-native-image-picker';
 
 export interface Props {
   onImagePicked: (image: ImageFile) => void;
   withCamera?: boolean;
   withFullGallery?: boolean;
-  onImageSelected?: (image: ImageFile, selected: boolean) => void;
-  onSelectionEnd?: (image: ImageFile[]) => void;
   onPermissionGranted?: (permission: Permission) => void;
   onPermissionDenied?: (permission: Permission) => void;
   onPermissionBlocked?: (permission: Permission) => void;
+  enableSelection?: boolean;
+  onImageSelected?: (image: ImageFile, selected: boolean) => void;
+  onSelectionEnd?: (image: ImageFile[]) => void;
   cancelSelectionText?: string;
   doneSelectionText?: string;
+  imagePickerOptions?: ImagePickerOptions;
+  selectionColor?: string;
 }
 
 const handlePermissionRequest = (
@@ -61,19 +65,29 @@ const ANDROID_WITH_CAMERA_PERMISSIONS = [
 ];
 const IOS_WITH_CAMERA_PERMISSIONS = [PERMISSIONS.IOS.CAMERA];
 
+const defaultImagePickerOptions = {
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+};
+
 const InAppGallery = forwardRef<any, Props>(
   (
     {
       onImagePicked,
       onImageSelected,
       onSelectionEnd,
-      withCamera = true,
-      withFullGallery = true,
       onPermissionGranted,
       onPermissionDenied,
       onPermissionBlocked,
+      enableSelection,
+      imagePickerOptions = defaultImagePickerOptions,
+      withCamera = true,
+      withFullGallery = true,
       cancelSelectionText = 'Cancel',
       doneSelectionText = 'DONE',
+      selectionColor = '#0284ff',
     },
     ref,
   ) => {
@@ -102,8 +116,6 @@ const InAppGallery = forwardRef<any, Props>(
       Platform.OS === 'android'
         ? cameraGrants >= ANDROID_WITH_CAMERA_PERMISSIONS.length
         : cameraGrants >= IOS_WITH_CAMERA_PERMISSIONS.length;
-
-    console.log('isCameraGranted', isCameraGranted);
 
     const askCameraPermission = useCallback(
       (permission: Permission, results: any) => {
@@ -263,7 +275,7 @@ const InAppGallery = forwardRef<any, Props>(
         if (withCamera) {
           if (index === 0) {
             if (isCameraGranted) {
-              return <CameraButton onImagePicked={onImagePicked} />;
+              return <CameraButton onImagePicked={onImagePicked} imagePickerOptions={imagePickerOptions} />;
             } else {
               return (
                 <TouchableOpacity
@@ -275,22 +287,24 @@ const InAppGallery = forwardRef<any, Props>(
           } else {
             return (
               <SelectableImage
-                onImageSelected={onImageSelected}
+                enableSelection={enableSelection}
                 onImagePress={handleOnImagePress}
                 onImageLongPress={handleOnImageLongPress}
                 item={item}
                 isSelected={selectedPhotos.includes(item)}
+                selectionColor={selectionColor}
               />
             );
           }
         } else {
           return (
             <SelectableImage
-              onImageSelected={onImageSelected}
+              enableSelection={enableSelection}
               onImagePress={handleOnImagePress}
               onImageLongPress={handleOnImageLongPress}
               item={item}
               isSelected={selectedPhotos.includes(item)}
+              selectionColor={selectionColor}
             />
           );
         }
@@ -303,6 +317,7 @@ const InAppGallery = forwardRef<any, Props>(
         selectedPhotos,
         onImageSelected,
         askCameraPermissions,
+        imagePickerOptions,
       ],
     );
 
@@ -350,9 +365,10 @@ const InAppGallery = forwardRef<any, Props>(
       handleDoneSelection,
     ]);
 
+    if (!isPhotoLibraryGranted) return null;
+
     return (
       <View style={{flex: 1, position: 'relative'}}>
-        {isPhotoLibraryGranted && (
           <FlatList
             stickyHeaderIndices={[0]}
             data={photos}
@@ -363,7 +379,6 @@ const InAppGallery = forwardRef<any, Props>(
             onEndReached={loadMorePhotos}
             initialNumToRender={20}
           />
-        )}
         {withFullGallery && (
           <View
             style={{
@@ -378,7 +393,7 @@ const InAppGallery = forwardRef<any, Props>(
               },
               shadowOpacity: 0.25,
             }}>
-            <FloatFullGalleryButton onImagePicked={onImagePicked} />
+            <FloatFullGalleryButton onImagePicked={onImagePicked} imagePickerOptions={imagePickerOptions} />
           </View>
         )}
       </View>

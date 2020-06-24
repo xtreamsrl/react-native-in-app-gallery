@@ -1,7 +1,6 @@
 import React from 'react';
 import {PhotoIdentifier} from '@react-native-community/cameraroll';
 import {Image, TouchableOpacity, View} from 'react-native';
-import {ImageFile} from './typings';
 //@ts-ignore
 import check from '../assets/check.png';
 
@@ -10,7 +9,7 @@ type Props = {
   item: PhotoIdentifier;
   onImagePress: () => void;
   onImageLongPress: () => void;
-  onImageSelected?: (image: ImageFile, selected: boolean) => void;
+  enableSelection?: boolean;
   selectionColor?: string;
 };
 
@@ -18,14 +17,14 @@ const SelectableImage: React.FC<Props> = ({
   isSelected,
   item,
   onImagePress,
-  onImageSelected,
+  enableSelection,
   onImageLongPress,
-  selectionColor = '#0284ff',
+  selectionColor,
 }) => {
   return (
     <TouchableOpacity
       onPress={onImagePress}
-      onLongPress={onImageSelected && onImageLongPress}
+      onLongPress={enableSelection ? onImageLongPress : undefined}
       style={{
         width: '33.33%',
         height: 120,

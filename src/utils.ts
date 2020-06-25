@@ -6,7 +6,7 @@ export const convertToImageFile = (
   options: ImagePickerOptions,
 ): ImageFile => {
   return {
-    uri: res.path || '',
+    uri: res.uri || '',
     filename: res.fileName || '',
     fileSize: res.fileSize,
     height: res.height,

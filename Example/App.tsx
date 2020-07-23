@@ -46,7 +46,7 @@ const App = () => {
 
         {isGalleryOpen &&
           <View style={{flex: 0.7}}>
-        <InAppGallery onImagePicked={(image)=>{console.log(image)}} />
+            <InAppGallery onImagePicked={(image)=>{console.log(image)}} />
           </View>
         }
       </SafeAreaView>

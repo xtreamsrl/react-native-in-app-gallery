@@ -1,6 +1,6 @@
 {
   "name": "react-native-in-app-gallery",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A RN in-app gallery component",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,10 @@
     "dev": "tsc --watch"
   },
   "keywords": [
-    "react-native"
+    "react-native",
+    "gallery",
+    "camera",
+    "in-app-gallery"
   ],
   "author": "Alberto Di Gioacchino",
   "license": "MIT",

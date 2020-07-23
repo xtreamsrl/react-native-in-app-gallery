@@ -1,32 +1,81 @@
 # react-native-in-app-gallery
 A RN in-app gallery component which allows to pick an image from both gallery and camera.
+It's **Android** and **iOS** compatible.
+
+![](example.gif)
+
 ## Getting started
 
-### Prerequisites
-The current package is not yet published. To try it out, these are the steps required.
-
-To link without pain the local package install [wml](https://github.com/wix/wml) by running
-```
-npm install -g wml
-```
-
-With wml installed, you can use it by typing 
-```
-wml add ~/my-package ~/main-project/node_modules/my-package
-# start watching all links added
-wml start
-```
-in particular, you need to clone the package locally and refer to its path. Second argument is the destination, so it should be your real project.
-
-Now you can add the package dependency on your package.json, without worrying about the IDE complaining on a missing dependency.
 ### Installation guide
-This package depends on few common react-native packages:
+
+This package depends on some common react-native packages:
 * [@react-native-community/cameraroll](https://github.com/react-native-community/react-native-cameraroll)
 * [react-native-permissions](https://github.com/react-native-community/react-native-permissions)
 * [react-native-camera](https://github.com/react-native-community/react-native-camera)
 * [react-native-image-picker](https://github.com/react-native-community/react-native-image-picker)
 
-To make it works, we need to setup these packages. Please refer to their installation guides which are up-to-date.
+
+```
+npm i --save @react-native-community/cameraroll react-native-permissions react-native-camera react-native-image-picker react-native-in-app-gallery
+```
+
+#### Android
+
+Add required permissions inside the manifest
+```xml
+<manifest>
+...
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+...
+<application>
+```
+
+Add the following lines in `android/app/build.gradle`
+
+```
+android {
+  ...
+  defaultConfig {
+    ...
+    missingDimensionStrategy 'react-native-camera', 'general' // <--- insert this line
+  }
+}
+```
+
+#### iOS
+
+Add required keys in your `Info.plist`
+
+```xml
+    <key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to use your camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to use your microphone to let you take and send videos</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
+```
+
+Add permission handlers in your `Podfile`
+```
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+  pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary.podspec"
+```
+
+Run 
+```
+cd ios
+pod install
+```
+
+
+If any problems, please refer to the mentioned above packages installation guides before opening an issue.
 
 ## Usage
 
@@ -41,6 +90,11 @@ import InAppGallery from 'react-native-in-app-gallery';
     }}
 />
 ```
+
+## Try it out
+
+You can check a simple example [here](https://github.com/xtreamsrl/react-native-in-app-gallery/tree/master/Example).
+
 
 ### Props
 

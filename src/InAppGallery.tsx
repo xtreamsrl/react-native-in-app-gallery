@@ -16,6 +16,7 @@ import FloatFullGalleryButton from './GalleryButton';
 import {ImageFile} from './typings';
 import SelectableImage from './SelectableImage';
 import {ImagePickerOptions} from 'react-native-image-picker';
+import {inAppGalleryStyles} from "./styles";
 
 export interface Props {
   onImagePicked: (image: ImageFile) => void;
@@ -73,6 +74,7 @@ const defaultImagePickerOptions = {
     skipBackup: true,
     path: 'images',
   },
+  quality: 0.8
 };
 
 const InAppGallery = forwardRef<any, Props>(
@@ -102,10 +104,12 @@ const InAppGallery = forwardRef<any, Props>(
     const [isPhotoLibraryGranted, setIsPhotoLibraryGranted] = useState<boolean>(false);
     const [photos, setPhotos] = useState<PhotoIdentifier[] | null>(null);
     const [selectedPhotos, setSelectedPhotos] = useState<PhotoIdentifier[]>([]);
+    const [selectedPhotosMap, setSelectedPhotosMap] = useState<{[key: string]: boolean}>({});
 
     const handleClearSelection = useCallback(() => {
       setIsSelectionEnabled(false);
       setSelectedPhotos([]);
+      setSelectedPhotosMap({});
     }, []);
 
     useImperativeHandle(
@@ -256,13 +260,23 @@ const InAppGallery = forwardRef<any, Props>(
       ({item, index}) => {
         const handleOnImagePress = () => {
           if (isSelectionEnabled && onImageSelected) {
-            if (selectedPhotos.includes(item)) {
+            if (item in selectedPhotosMap) {
               setSelectedPhotos((spp) =>
                 spp.filter((sp) => sp.node.image.uri !== item.node.image.uri),
               );
+              setSelectedPhotosMap((smap) => {
+                const newMap = {...smap};
+                delete newMap[item];
+                return newMap;
+              });
               onImageSelected(item, false);
             } else {
               setSelectedPhotos((spp) => [...spp, item]);
+              setSelectedPhotosMap((smap) => {
+                const newMap = {...smap};
+                newMap[item] = true;
+                return newMap;
+              });
               onImageSelected(item, true);
             }
           } else {
@@ -274,6 +288,7 @@ const InAppGallery = forwardRef<any, Props>(
           if (!isSelectionEnabled && onImageSelected) {
             setIsSelectionEnabled(true);
             setSelectedPhotos([item]);
+            setSelectedPhotosMap({[item]: true});
             onImageSelected(item, true);
           }
         };
@@ -285,7 +300,6 @@ const InAppGallery = forwardRef<any, Props>(
             } else {
               return (
                 <TouchableOpacity
-                  style={{backgroundColor: 'blue'}}
                   onPress={askCameraPermissions}
                 />
               );
@@ -298,7 +312,7 @@ const InAppGallery = forwardRef<any, Props>(
                 onImagePress={handleOnImagePress}
                 onImageLongPress={handleOnImageLongPress}
                 item={item}
-                isSelected={selectedPhotos.includes(item)}
+                isSelected={item in selectedPhotosMap}
                 selectionColor={selectionColor}
               />
             );
@@ -311,7 +325,7 @@ const InAppGallery = forwardRef<any, Props>(
               onImagePress={handleOnImagePress}
               onImageLongPress={handleOnImageLongPress}
               item={item}
-              isSelected={selectedPhotos.includes(item)}
+              isSelected={item in selectedPhotosMap}
               selectionColor={selectionColor}
             />
           );
@@ -324,6 +338,7 @@ const InAppGallery = forwardRef<any, Props>(
         isSelectionEnabled,
         onImagePicked,
         selectedPhotos,
+        selectedPhotosMap,
         onImageSelected,
         askCameraPermissions,
         imagePickerOptions,
@@ -341,19 +356,13 @@ const InAppGallery = forwardRef<any, Props>(
       }
       return (
         <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: 16,
-            backgroundColor: 'white',
-          }}>
+          style={inAppGalleryStyles.selectionHeaderContainer}>
           <View>
             <TouchableOpacity onPress={handleClearSelection}>
               <Text>{cancelSelectionText}</Text>
             </TouchableOpacity>
           </View>
-          <View style={{flexDirection: 'row'}}>
+          <View style={inAppGalleryStyles.row}>
             <TouchableOpacity onPress={handleDoneSelection}>
               <Text>
                 {doneSelectionText}
@@ -378,10 +387,14 @@ const InAppGallery = forwardRef<any, Props>(
       {length: imageHeight, offset: imageHeight * index, index}
     ), [imageHeight]);
 
+    const keyExtractor = useCallback((item: PhotoIdentifier, index: number) => {
+      return item.node.image.uri || index.toString();
+    }, []);
+
     if (!isPhotoLibraryGranted) return null;
 
     return (
-      <View style={{flex: 1, position: 'relative'}}>
+      <View style={inAppGalleryStyles.container}>
           <FlatList
             stickyHeaderIndices={[0]}
             data={photos}
@@ -389,7 +402,7 @@ const InAppGallery = forwardRef<any, Props>(
             ListHeaderComponent={renderHeader}
             numColumns={3}
             removeClippedSubviews={Platform.OS === 'android'}
-            keyExtractor={(item) => item.node.image.uri}
+            keyExtractor={keyExtractor}
             onEndReachedThreshold={0.7}
             onEndReached={loadMorePhotos}
             initialNumToRender={initialNumToRender}
@@ -397,18 +410,7 @@ const InAppGallery = forwardRef<any, Props>(
           />
         {withFullGallery && (
           <View
-            style={{
-              position: 'absolute',
-              bottom: 20,
-              right: 20,
-              elevation: 4,
-              shadowColor: '#000',
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.25,
-            }}>
+            style={inAppGalleryStyles.floatButtonContainer}>
             <FloatFullGalleryButton onImagePicked={onImagePicked} imagePickerOptions={imagePickerOptions} />
           </View>
         )}

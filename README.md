@@ -112,7 +112,7 @@ You can check a simple example [here](https://github.com/xtreamsrl/react-native-
 | imagePickerOptions                      | ImagePickerOptions (default  ```{storageOptions: {skipBackup: true, path: 'images'}}```) | (Optional) Options for ImagePicker |
 | enableSelection                         |         bool (default false)             | (Optional) It enables selection (with long press) |
 | onImageSelected                         |    (image: ImageFile, selected: boolean) | (Optional) Callback on image selection. It's triggered whenever an image is selected or deselected |
-| onSelectionEnd                          |    (image: ImageFile[]) => void          | (Optional) Callback on images selection end |
+| onSelectionEnd                          |    (images: ImageFile[]) => void         | (Optional) Callback on images selection end |
 | cancelSelectionText                     |       string (default `Cancel`)          | (Optional) Text to cancel selection |
 | doneSelectionText                       |        string (default `DONE`)           | (Optional) Text to end selection |
 | selectionColor                          |        string (default `#0284ff`)        | (Optional) It's the tint color for selection icon |

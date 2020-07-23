@@ -30,7 +30,7 @@ export interface Props {
   onPermissionBlocked?: (permission: Permission) => void;
   enableSelection?: boolean;
   onImageSelected?: (image: ImageFile, selected: boolean) => void;
-  onSelectionEnd?: (image: ImageFile[]) => void;
+  onSelectionEnd?: (images: ImageFile[]) => void;
   cancelSelectionText?: string;
   doneSelectionText?: string;
   imagePickerOptions?: ImagePickerOptions;

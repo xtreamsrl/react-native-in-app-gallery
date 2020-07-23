@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {PhotoIdentifier} from '@react-native-community/cameraroll';
 import {Image, TouchableOpacity, View} from 'react-native';
 //@ts-ignore
 import check from '../assets/check.png';
+import {inAppGalleryStyles, selectableImageStyles} from "./styles";
 
 type Props = {
   imageHeight: number;
@@ -23,34 +24,34 @@ const SelectableImage: React.FC<Props> = ({
   onImageLongPress,
   selectionColor,
 }) => {
+
+  const touchableStyle = useMemo(() => {
+    return [selectableImageStyles.touchable, {height: imageHeight}]
+  }, [imageHeight]);
+
+  const checkStyle = useMemo(() => {
+    return [selectableImageStyles.checkImage, {tintColor: selectionColor}];
+  }, [selectionColor]);
+
+  const source = useMemo(() => {
+    return {uri: item.node.image.uri};
+  }, [item]);
+
   return (
     <TouchableOpacity
       onPress={onImagePress}
       onLongPress={enableSelection ? onImageLongPress : undefined}
-      style={{
-        width: '33.33%',
-        height: imageHeight,
-        borderBottomWidth: 1,
-        borderRightWidth: 1,
-        borderColor: '#fff'
-      }}>
+      style={touchableStyle}>
       {isSelected ? (
-        <View style={{position: 'relative'}}>
-          <Image style={{width: '100%', height: '100%', opacity: 0.8}} source={{uri: item.node.image.uri}} />
+        <View style={inAppGalleryStyles.relative}>
+          <Image style={selectableImageStyles.image} source={source} />
           <Image
             source={check}
-            style={{
-              position: 'absolute',
-              right: 10,
-              bottom: 10,
-              width: 20,
-              height: 20,
-              tintColor: selectionColor,
-            }}
+            style={checkStyle}
           />
         </View>
       ) : (
-        <Image style={{width: '100%', height: '100%'}} source={{uri: item.node.image.uri}} />
+        <Image style={selectableImageStyles.image} source={source} />
       )}
     </TouchableOpacity>
   );

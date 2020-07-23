@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {Image, TouchableOpacity, View} from 'react-native';
 import {RNCamera} from 'react-native-camera';
 //@ts-ignore
@@ -6,6 +6,7 @@ import camera from '../assets/camera.png';
 import ImagePicker, {ImagePickerResponse, ImagePickerOptions} from 'react-native-image-picker';
 import {ImageFile} from './typings';
 import {convertToImageFile} from './utils';
+import {cameraButtonStyles, inAppGalleryStyles} from "./styles";
 
 type Props = {
   height: number;
@@ -29,29 +30,18 @@ export const CameraButton: React.FC<Props> = ({
     ImagePicker.launchCamera(imagePickerOptions, callback);
   }, [imagePickerOptions, callback]);
 
+  const touchableStyle = useMemo(() => {
+    return [cameraButtonStyles.touchable, {height}]
+  }, [height]);
+
   return (
     <TouchableOpacity
       onPress={handleOnPress}
-      style={{
-        width: '33.33%',
-        height: height,
-        position: 'relative',
-        borderBottomWidth: 1,
-        borderRightWidth: 1,
-        borderColor: '#fff',
-      }}>
-      <RNCamera style={{flex: 1}} />
+      style={touchableStyle}>
+      <RNCamera style={inAppGalleryStyles.flex} />
       <View
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Image source={camera} style={{width: 30, height: 30, tintColor: '#fff'}} />
+        style={cameraButtonStyles.imageContainer}>
+        <Image source={camera} style={cameraButtonStyles.image} />
       </View>
     </TouchableOpacity>
   );

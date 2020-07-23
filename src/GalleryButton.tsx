@@ -5,6 +5,7 @@ import {Image, TouchableOpacity} from 'react-native';
 import grid from '../assets/grid.png';
 import {convertToImageFile} from './utils';
 import {ImageFile} from './typings';
+import {galleryButtonStyles} from "./styles";
 
 type Props = {
   onImagePicked: (image: ImageFile) => void;
@@ -29,23 +30,8 @@ const FloatFullGalleryButton: React.FC<Props> = ({
   return (
     <TouchableOpacity
       onPress={handleOnPress}
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'white',
-        width: 50,
-        height: 50,
-        borderRadius: 50,
-        elevation: 4,
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-      }}>
-      <Image style={{width: 30, height: 30, tintColor: 'gray'}} source={grid} />
+      style={galleryButtonStyles.touchable}>
+      <Image style={galleryButtonStyles.image} source={grid} />
     </TouchableOpacity>
   );
 };

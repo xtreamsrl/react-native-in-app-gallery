@@ -261,7 +261,7 @@ const InAppGallery = forwardRef<any, Props>(
         const itemUri = item.node.image.uri;
 
         const handleOnImagePress = () => {
-          if (isSelectionEnabled && onImageSelected) {
+          if (isSelectionEnabled) {
             if (itemUri in selectedPhotosMap) {
               setSelectedPhotos((spp) =>
                 spp.filter((sp) => sp.node.image.uri !== item.node.image.uri),
@@ -271,7 +271,7 @@ const InAppGallery = forwardRef<any, Props>(
                 delete newMap[itemUri];
                 return newMap;
               });
-              onImageSelected(item.node.image, false);
+              onImageSelected && onImageSelected(item.node.image, false);
             } else {
               setSelectedPhotos((spp) => [...spp, item]);
               setSelectedPhotosMap((smap) => {
@@ -279,7 +279,7 @@ const InAppGallery = forwardRef<any, Props>(
                 newMap[itemUri] = true;
                 return newMap;
               });
-              onImageSelected(item.node.image, true);
+              onImageSelected && onImageSelected(item.node.image, true);
             }
           } else {
             onImagePicked(item.node.image);
@@ -287,11 +287,11 @@ const InAppGallery = forwardRef<any, Props>(
         };
 
         const handleOnImageLongPress = () => {
-          if (!isSelectionEnabled && onImageSelected) {
+          if (!isSelectionEnabled) {
             setIsSelectionEnabled(true);
             setSelectedPhotos([item]);
             setSelectedPhotosMap({[itemUri]: true});
-            onImageSelected(item.node.image, true);
+            onImageSelected && onImageSelected(item.node.image, true);
           }
         };
 

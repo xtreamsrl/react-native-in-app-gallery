@@ -1,5 +1,5 @@
 import React, {forwardRef, useCallback, useEffect, useImperativeHandle, useState} from 'react';
-import {FlatList, Platform, TouchableOpacity, View, Text} from 'react-native';
+import {FlatList, Platform, TouchableOpacity, View, Text, ListRenderItemInfo} from 'react-native';
 import {
   check,
   checkMultiple,
@@ -257,27 +257,29 @@ const InAppGallery = forwardRef<any, Props>(
     }, [pageSize]);
 
     const renderItem = useCallback(
-      ({item, index}) => {
+      ({item, index} : ListRenderItemInfo<PhotoIdentifier>) => {
+        const itemUri = item.node.image.uri;
+
         const handleOnImagePress = () => {
           if (isSelectionEnabled && onImageSelected) {
-            if (item in selectedPhotosMap) {
+            if (itemUri in selectedPhotosMap) {
               setSelectedPhotos((spp) =>
                 spp.filter((sp) => sp.node.image.uri !== item.node.image.uri),
               );
               setSelectedPhotosMap((smap) => {
                 const newMap = {...smap};
-                delete newMap[item];
+                delete newMap[itemUri];
                 return newMap;
               });
-              onImageSelected(item, false);
+              onImageSelected(item.node.image, false);
             } else {
               setSelectedPhotos((spp) => [...spp, item]);
               setSelectedPhotosMap((smap) => {
                 const newMap = {...smap};
-                newMap[item] = true;
+                newMap[itemUri] = true;
                 return newMap;
               });
-              onImageSelected(item, true);
+              onImageSelected(item.node.image, true);
             }
           } else {
             onImagePicked(item.node.image);
@@ -288,8 +290,8 @@ const InAppGallery = forwardRef<any, Props>(
           if (!isSelectionEnabled && onImageSelected) {
             setIsSelectionEnabled(true);
             setSelectedPhotos([item]);
-            setSelectedPhotosMap({[item]: true});
-            onImageSelected(item, true);
+            setSelectedPhotosMap({[itemUri]: true});
+            onImageSelected(item.node.image, true);
           }
         };
 
@@ -312,7 +314,7 @@ const InAppGallery = forwardRef<any, Props>(
                 onImagePress={handleOnImagePress}
                 onImageLongPress={handleOnImageLongPress}
                 item={item}
-                isSelected={item in selectedPhotosMap}
+                isSelected={itemUri in selectedPhotosMap}
                 selectionColor={selectionColor}
               />
             );
@@ -325,7 +327,7 @@ const InAppGallery = forwardRef<any, Props>(
               onImagePress={handleOnImagePress}
               onImageLongPress={handleOnImageLongPress}
               item={item}
-              isSelected={item in selectedPhotosMap}
+              isSelected={itemUri in selectedPhotosMap}
               selectionColor={selectionColor}
             />
           );

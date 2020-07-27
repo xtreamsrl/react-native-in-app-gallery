@@ -1,6 +1,6 @@
 {
   "name": "react-native-in-app-gallery",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A RN in-app gallery component",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

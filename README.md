@@ -120,6 +120,13 @@ You can check a simple example [here](https://github.com/xtreamsrl/react-native-
 ### Methods
 
 | Method                                  |                Description               | 
-| --------------------------------------- | :--------------------------------------: | 
+| --------------------------------------- | :--------------------------------------: |
 | clearSelection                          |         It clears selected images        | 
+
+
+# Who we are
+<img align="left" width="80" height="80" src="https://avatars2.githubusercontent.com/u/38501645?s=450&u=1eb7348ca81f5cd27ce9c02e689f518d903852b1&v=4">
+A young and passionate 🇮🇹 company which strives for quality.<br>Code and data addicted. Find out more on our <a target="_blank" href="https://it.linkedin.com/company/xtream-srl">LinkedIn</a> page.
+
+
 

@@ -1,6 +1,6 @@
 {
   "name": "react-native-in-app-gallery",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A RN in-app gallery component",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -34,5 +34,9 @@
   "peerDependencies": {
     "react": "*",
     "react-native": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xtreamsrl/react-native-in-app-gallery.git"
   }
 }

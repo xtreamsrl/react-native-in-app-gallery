@@ -1,5 +1,5 @@
 # react-native-in-app-gallery
-A RN in-app gallery component which allows to pick an image from both gallery and camera.
+A react-native in-app gallery component which allows to pick an image from both gallery and camera, optionally without exiting the current screen.
 It's **Android** and **iOS** compatible.
 
 ![](example.gif)
@@ -126,7 +126,7 @@ You can check a simple example [here](https://github.com/xtreamsrl/react-native-
 
 # Who we are
 <img align="left" width="80" height="80" src="https://avatars2.githubusercontent.com/u/38501645?s=450&u=1eb7348ca81f5cd27ce9c02e689f518d903852b1&v=4">
-A young and passionate 🇮🇹 company which strives for quality.<br>Code and data addicted. Find out more on our <a target="_blank" href="https://it.linkedin.com/company/xtream-srl">LinkedIn</a> page.
+A proudly 🇮🇹 software development and data science startup.<br>We consider ourselves a family of talented and passionate people building their own products and powerful solutions for our clients. Get to know us more on <a target="_blank" href="https://xtreamers.io">xtreamers.io</a> or follow us on <a target="_blank" href="https://it.linkedin.com/company/xtream-srl">LinkedIn</a>.
 
 
 
